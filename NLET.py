@@ -98,7 +98,7 @@ class TrackEventsGUI:
         self.BuildEVENTTRACKERWindowBox.pack_start(self.ECbuttonLTCTICAP, False, False, 0)
 
         # Other CAP
-        self.ECbuttonOTHERCAP = gtk.RadioButton(self.ECbuttonLTCTICAP, "Other Cap")
+        self.ECbuttonOTHERCAP = gtk.RadioButton(self.ECbuttonLTCTICAP, "Other Cap (Future enhancement)")
         self.ECbuttonOTHERCAP.set_active(False)
         self.BuildEVENTTRACKERWindowBox.pack_start(self.ECbuttonOTHERCAP, False, False, 0)
 
@@ -108,7 +108,7 @@ class TrackEventsGUI:
         self.BuildEVENTTRACKERWindowBox.pack_start(self.ECbuttonPITCHMAN, False, False, 0)
 
         # Anomalous Event
-        self.ECbuttonANOMALOUSEVENT = gtk.RadioButton(self.ECbuttonPITCHMAN, "Anomalous Event")
+        self.ECbuttonANOMALOUSEVENT = gtk.RadioButton(self.ECbuttonPITCHMAN, "Anomalous Event (Future enhancement)")
         self.ECbuttonANOMALOUSEVENT.set_active(False)
         self.BuildEVENTTRACKERWindowBox.pack_start(self.ECbuttonANOMALOUSEVENT, False, False, 0)
          
