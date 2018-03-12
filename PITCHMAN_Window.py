@@ -226,8 +226,8 @@ class PITCHMAN:
         # ------------------------------- DATE ------------------------
         # 4444 - LABEL - DATE
         row_len = 1
-        col_len = 3
-        self.DATE_label = gtk.Label("MAN Date (DOY): ")
+        col_len = 5
+        self.DATE_label = gtk.Label("MAN Date (2018:071:17:32:00): ")
         self.TextEntry_Table.attach(self.DATE_label, 
                                     start_col, start_col + col_len,
                                     start_row, start_row + row_len)

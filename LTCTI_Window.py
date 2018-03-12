@@ -76,9 +76,6 @@ class LTCTI:
         When the SCORE, CANCEL or TEST button has been clicked, the LTCTI pop-up
         is destroyed.
         """
-        # First thing we are going to do is gather all the data from the 
-        # pop-up window.
- 
         # CAP execution start time
         self.start_date = self.DATE_entry.get_text()
         # CAP number
@@ -240,13 +237,13 @@ class LTCTI:
         # ------------------------------- DATE --------------------------------------
         # 4444 - LABEL - DATE
         row_len = 1
-        col_len = 4
-        self.DATE_label = gtk.Label("CAP Execution Date (DOY): ")
+        col_len = 5
+        self.DATE_label = gtk.Label("CAP Execution Date (2018:071:17:32:00): ")
         self.TextEntry_Table.attach(self.DATE_label, 
                                     start_col, start_col + col_len,
                                     start_row, start_row + row_len)
 
-        start_col += col_len+1
+        start_col += col_len
 
         row_len = 1
         col_len = 5
