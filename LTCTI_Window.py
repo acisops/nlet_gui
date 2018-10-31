@@ -36,9 +36,9 @@ class LTCTI:
         self.default_current_folder = "/data/acis/LoadReviews/"
 
         self.number_of_chips = 6
-        self.LTCTI_RTS_4 = '1_4_CTI.RTS'
-        self.LTCTI_RTS_5 = '1_5_CTI.RTS'
-        self.LTCTI_RTS_6 = '1_CTI06.RTS'
+        self.LTCTI_RTS_4 = '1_4_CTI'
+        self.LTCTI_RTS_5 = '1_5_CTI'
+        self.LTCTI_RTS_6 = '1_CTI06'
         self.LTCTI_selected = self.LTCTI_RTS_6  # Default to 6 chips
         self.LTCTI_duration = '000:01:00:00'    # Default to one hour
 

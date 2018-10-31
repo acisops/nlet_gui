@@ -233,11 +233,13 @@ if args.event_type == "MAN":
         #
         # First create an array of the 4 quaternions
         man_quat_array = np.array([float(args.q1), float(args.q2), float(args.q3), float(args.q4)])
+        # Be sure the q's are normalized
+        normd_q_list = qt.normalize(man_quat_array)
 
         # Create the Quat instance
-        # Give it a try; if fail thenset pitch and roll to 0.0
+        # Give it a try; if fail then set pitch and roll to 0.0
         try:
-            man_quat = qt.Quat(man_quat_array)
+            man_quat = qt.Quat(normd_q_list)
             # Worked ok so now calculate the pitch and roll
             pitch = Ska.Sun.pitch(man_quat.ra, man_quat.dec, str(args.event_time))
             nom_roll = Ska.Sun.nominal_roll(man_quat.ra, man_quat.dec, str(args.event_time))
