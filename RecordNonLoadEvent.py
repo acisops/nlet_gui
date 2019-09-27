@@ -21,11 +21,11 @@ import numpy as np
 #   too   - TOO
 #   man   - Maneuver Load running only
 #
-# From the Non-LoadEvent Tracking Tool you will get:
+# From the Non-LoadEvent Tracking GUI you will get:
 #   PITCH Maneuver
 #   LTCTI
 #   OTHER CAP
-#   ANOMALOUS
+#   FEPs On Off
 #
 # For all of these events you will have: time of the event (2015:201:22:10:55)
 #                                        type (e.g. "too", "s107", "go" etc)
@@ -110,9 +110,16 @@ else: # Else set the path to the for-score tracking
     # For really keeping score
     eventfilepath = "/data/acis/LoadReviews/NonLoadTrackedEvents.txt"
 
-# List of similar events
+# List of similar events.  These events are all treated identically
+# with regard to their output lines in the NLET file. So
 basic_event_list = ['S107', 'STOP', 'TOO', 'OTHERCLD']
 
+# The power command event list is a collection of WSPOW commands
+# which are used to turn FEPs on or off. As they are treaated identically,
+# as regards the NLET tracking file output, we place them in this list so 
+# that further expansion of single WSPOW commands can be accomplished with 
+# very little code mods.
+power_command_list = ['WSPOW00000', 'WSPOW0002A', 'WSVIDALLDN']
 
 # Open the official event file for appending information
 
@@ -140,6 +147,7 @@ eventfile = open(eventfilepath, "a")
 #   go
 #   too
 #   man
+#   power commands
 #
 #---------------------------------------------------------------------------
 if args.event_type in basic_event_list:
@@ -223,7 +231,7 @@ if args.event_type == "MAN":
 
     # If any one of the q's in the array are bogus values warn the user
     if bogosity == True:
-        print "\n\n WARNING!!!!!!!  You have entered a bogus value for one or more of the Quaternion values.\nThese values will be entered in the Non-Load Event Tracking file as is.\n\nHOWEVER, you MUST edit the file:\n\n/data/acis/LoadReviews/NonLoadTrackedEvents.txt \n\nand insert the correct values BEFORE you attempt to run a thermal model.\n\n In the meantime I'm going to set both pitch and roll to zero\n"
+        print("\n\n WARNING!!!!!!!  You have entered a bogus value for one or more of the Quaternion values.\nThese values will be entered in the Non-Load Event Tracking file as is.\n\nHOWEVER, you MUST edit the file:\n\n/data/acis/LoadReviews/NonLoadTrackedEvents.txt \n\nand insert the correct values BEFORE you attempt to run a thermal model.\n\n In the meantime I'm going to set both pitch and roll to zero\n")
         # and set the pitch and roll both to 0.0
         pitch = 0.0
         nom_roll = 0.0
@@ -246,7 +254,7 @@ if args.event_type == "MAN":
         except ValueError:
             pitch = 0.0
             nom_roll = 0.0
-            print "WARNING: The Quaternion set you gave me is not normalized. Can't use it. I've set the resultant pitch and roll to 0.0.\n BE SURE you do not run a model until you've entered reasonable values."
+            print("WARNING: The Quaternion set you gave me is not normalized. Can't use it. I've set the resultant pitch and roll to 0.0.\n BE SURE you do not run a model until you've entered reasonable values.")
 
     # Append the header to the file
     eventfile.write("#*******************************************************************************")       
@@ -265,7 +273,25 @@ if args.event_type == "MAN":
     # Now write the string out
     eventfile.write(event_file_string)
     
+# Record the MANEUVER event
+#
 
+# If this is a WSPOW, FEP on or off command...
+if args.event_type in power_command_list:
+
+    # Append the header to the file
+    eventfile.write("#*******************************************************************************")       
+    eventfile.write("\n# Type: "+args.event_type)
+    eventfile.write("\n# Time of Event: "+args.event_time)
+    eventfile.write("\n# Source: "+args.source)
+    eventfile.write("\n# Description: "+args.desc)
+    eventfile.write("\n#-------------------------------------------------------------------------------")
+    eventfile.write("\n#       Time        Event         CAP num  ")
+    eventfile.write("\n#-------------------------------------------------------------------------------")
+    
+    # Now write the information; build the output string
+    eventfile.write("\n"+str(args.event_time)+"    "+args.event_type+"   "+args.cap_num+"\n")
+ 
     # Write the closing comment symbol
     eventfile.write("#\n")
   

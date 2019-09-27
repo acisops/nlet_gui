@@ -13,6 +13,7 @@
 ################################################################################
 import gtk
 import os
+import subprocess
 
 class PITCHMAN:
 
@@ -31,7 +32,10 @@ class PITCHMAN:
         self.q3 = '-3000'
         self.q4 = '-4000'
 
-        self.RE_base_command = '/proj/sot/ska/bin/python /data/acis/LoadReviews/script/NONLOADEVENTTRACKER/RecordNonLoadEvent.py MAN --source NLET '
+        # Initialize the Command to be recorded.
+#        self.RNLE_command_list = [ '/proj/sot/ska3/flight/bin/python', '/data/acis/LoadReviews/script/NONLOADEVENTTRACKER/RecordNonLoadEvent.py', 'MAN', '--source', 'NLET']
+
+        self.RNLE_command_list = [ '/proj/sot/ska3/flight/bin/python', '/home/gregg/GIT_NLET_GUI/nlet_gui/RecordNonLoadEvent.py', 'MAN', '--source', 'NLET']
 
     #-----------------------------------------------------------------------
     #
@@ -104,10 +108,9 @@ class PITCHMAN:
             # Either SCORE or TEST was pressed so process accordingly
             # Set up the output file depending upon whether this is for score
             # or just a test run
-            if (string == "SCORE"):
-                NLET_cmd = self.RE_base_command
+            if (string == "TEST"):
 
-            else: # User must have clicked on TEST
+                # User must have clicked on TEST
                 # STRING == TEST so this is for TEST PURPOSES and a test 
                 # file will be written to a user-selected file
    
@@ -147,8 +150,8 @@ class PITCHMAN:
                 self.TEST_NLET_FILESelectordialog.destroy()
         
                 # Now tack the -t switch and the path to the TEST file
-                # Ontot he command.
-                NLET_cmd = self.RE_base_command+" -t "+self.TEST_NLET_file_filespec
+                # Onto the command.
+                self.RNLE_command_list.extend(['-t', self.TEST_NLET_file_filespec])
 
             # Now form the rest of the RecordNonLoadEvent.py command using the
             # data extracted from the GUI page
@@ -158,8 +161,8 @@ class PITCHMAN:
                 if self.start_date == "":
                     print "NO START DATE SPECIFIED!!!"
                 else:
-                    # Concatenate the 
-                    NLET_cmd += " --event_time "+self.start_date+" "
+                    # Concatenate the  time of the event
+                    self.RNLE_command_list.extend(['--event_time', self.start_date])
     
     
                 # ---------------- QUATERNIONs Q1 through Q4 --------------------
@@ -168,37 +171,50 @@ class PITCHMAN:
                 # Check to see if this is a valid Q
                 q_use = self.check_q(self.q1)
                 # Append whatever value check_q returned
-                NLET_cmd += ' --q1 '+str(q_use)+" "
+                self.RNLE_command_list.extend(['--q1', str(q_use) ])
     
                 # ---------------- QUATERNIONs Q2 --------------------
                 # Check to see if this is a valid Q
                 q_use = self.check_q(self.q2)
                 # Append whatever value check_q returned    
-                NLET_cmd += ' --q2 '+str(q_use)+" "
+                self.RNLE_command_list.extend(['--q2', str(q_use) ])
     
                 # ---------------- QUATERNIONs Q3 --------------------
                 # Check to see if this is a valid Q
                 q_use = self.check_q(self.q3)
-                # Append whatever value check_q returned      
-                NLET_cmd += ' --q3 '+str(q_use)+" "
+                # Append whatever value check_q returned    
+                self.RNLE_command_list.extend(['--q3', str(q_use) ])
+    
     
                 # ---------------- QUATERNIONs Q4 --------------------
                 # Check to see if this is a valid Q    
                 q_use = self.check_q(self.q4)
                 # Append whatever value check_q returned        
-                NLET_cmd += ' --q4 '+str(q_use)+" "
-    
+                self.RNLE_command_list.extend(['--q4', str(q_use) ])
+     
                  # -------------- COMMENT -----------------------------------------
                 # Now get wheatever the user put in the comment field if anything
                 if user_comment == "":
                     print "USER SUPPLIED NO COMMENT"
                     user_comment = "No Comment"
     
-                NLET_cmd += ' --desc "'+user_comment+'" '
-             
-            # Execute the command
-            os.system(NLET_cmd)
-    
+                # Now append the comment  to the argument list
+                self.RNLE_command_list.extend(['--desc', user_comment])
+              
+           # Now that you have the command line built - execute it
+            try:
+                print('\nRecording the LTCTI event:')
+                x = subprocess.Popen(self.RNLE_command_list)
+                # Now reset the command list to the base command
+                self.RNLE_command_list = [ '/proj/sot/ska3/flight/bin/python', '/home/gregg/GIT_NLET_GUI/nlet_gui/RecordNonLoadEvent.py', 'MAN', '--source', 'NLET']
+            except:
+                print('\n PROBLEM: Writing the MANEUVER event to the Non Load Event Tracking File failed.')
+
+            print('\nFinished the NLET file update')
+  
+
+
+
         # Done with the window so destroy it
         self.BuildMANWindow.destroy()
         return False
