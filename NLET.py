@@ -104,6 +104,7 @@ class TrackEventsGUI:
         # Other CAP
         self.ECbuttonOTHERCAP = gtk.RadioButton(self.ECbuttonLTCTICAP, "Other Cap (Future enhancement)")
         self.ECbuttonOTHERCAP.set_active(False)
+        self.ECbuttonOTHERCAP.set_sensitive(False)
         self.BuildEVENTTRACKERWindowBox.pack_start(self.ECbuttonOTHERCAP, False, False, 0)
 
         # Pitch Maneuver
