@@ -101,7 +101,7 @@ class TrackEventsGUI:
         self.ECbuttonLTCTICAP.set_active(False)
         self.BuildEVENTTRACKERWindowBox.pack_start(self.ECbuttonLTCTICAP, False, False, 0)
 
-        # Other CAP
+        # Other CAP - de-sensitized for now.
         self.ECbuttonOTHERCAP = gtk.RadioButton(self.ECbuttonLTCTICAP, "Other Cap (Future enhancement)")
         self.ECbuttonOTHERCAP.set_active(False)
         self.ECbuttonOTHERCAP.set_sensitive(False)
