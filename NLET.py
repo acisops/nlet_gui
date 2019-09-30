@@ -113,7 +113,7 @@ class TrackEventsGUI:
         self.BuildEVENTTRACKERWindowBox.pack_start(self.ECbuttonPITCHMAN, False, False, 0)
 
         # FEP_ON_FEP_OFF Event
-        self.ECbuttonFEP_ON_FEP_OFF_EVENT = gtk.RadioButton(self.ECbuttonPITCHMAN, "FEPs ON/FEPs OFF")
+        self.ECbuttonFEP_ON_FEP_OFF_EVENT = gtk.RadioButton(self.ECbuttonPITCHMAN, "Power Commands")
         self.ECbuttonFEP_ON_FEP_OFF_EVENT.set_active(False)
         self.BuildEVENTTRACKERWindowBox.pack_start(self.ECbuttonFEP_ON_FEP_OFF_EVENT, False, False, 0)
          
