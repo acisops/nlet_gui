@@ -33,9 +33,7 @@ class PITCHMAN:
         self.q4 = '-4000'
 
         # Initialize the Command to be recorded.
-#        self.RNLE_command_list = [ '/proj/sot/ska3/flight/bin/python', '/data/acis/LoadReviews/script/NONLOADEVENTTRACKER/RecordNonLoadEvent.py', 'MAN', '--source', 'NLET']
-
-        self.RNLE_command_list = [ '/proj/sot/ska3/flight/bin/python', '/home/gregg/GIT_NLET_GUI/nlet_gui/RecordNonLoadEvent.py', 'MAN', '--source', 'NLET']
+        self.RNLE_command_list = [ '/proj/sot/ska3/flight/bin/python', '/data/acis/LoadReviews/script/NONLOADEVENTTRACKER/RecordNonLoadEvent.py', 'MAN', '--source', 'NLET']
 
     #-----------------------------------------------------------------------
     #
@@ -206,7 +204,8 @@ class PITCHMAN:
                 print('\nRecording the LTCTI event:')
                 x = subprocess.Popen(self.RNLE_command_list)
                 # Now reset the command list to the base command
-                self.RNLE_command_list = [ '/proj/sot/ska3/flight/bin/python', '/home/gregg/GIT_NLET_GUI/nlet_gui/RecordNonLoadEvent.py', 'MAN', '--source', 'NLET']
+                self.RNLE_command_list = [ '/proj/sot/ska3/flight/bin/python', '/data/acis/LoadReviews/script/NONLOADEVENTTRACKER/RecordNonLoadEvent.py', 'MAN', '--source', 'NLET']
+
             except:
                 print('\n PROBLEM: Writing the MANEUVER event to the Non Load Event Tracking File failed.')
 
