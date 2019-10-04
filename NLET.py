@@ -19,6 +19,8 @@ import numpy as np
 import LTCTI_Window
 import PITCHMAN_Window
 
+import FEPs_On_Off_Window
+
 class TrackEventsGUI:
 
 
@@ -64,13 +66,14 @@ class TrackEventsGUI:
         #elif self.ECbuttonOTHERCAP.get_active() == True:
         #    OTHERCLD.Pop_UP_OTHERCLD_Window()
 
-        # ----  Some weirdo ANOMALOUS EVENT
-#        elif self.ECbuttonANOMALOUSEVENT.get_active() == True:
-#            self.ProcessNonCTI(self.Event_Tracking_output_filespec, "Anomaly", date, '---', description, "Final")
+        # ----  Show me: FEP_ON_FEP_OFF EVENT
+        elif self.ECbuttonFEP_ON_FEP_OFF_EVENT.get_active() == True:
+            FEPS_ON_OFF.Pop_Up_Window()
 
     #=======================MAIN=============================================
 
     def __init__(self):
+
         self.CLDfile_filespec = ""
         self.CAP_Number = 0
         self.Event_Tracking_output_filespec = "/data/acis/LoadReviews/EventsTrack.txt"
@@ -79,9 +82,10 @@ class TrackEventsGUI:
         # 1111 WINDOW Basic Window Creation - Create a new window
         self.BuildEVENTTRACKERWindow = gtk.Window(gtk.WINDOW_TOPLEVEL)
         # set the title and size of the window.
-        self.BuildEVENTTRACKERWindow.set_title("Event Tracker V1.0")
+        self.BuildEVENTTRACKERWindow.set_title("Event Tracker V1.2")
         self.BuildEVENTTRACKERWindow.set_size_request(1000,500)
         self.BuildEVENTTRACKERWindow.set_border_width(10)
+
         # set a handler for delete event that immediately exits GTK.
         self.BuildEVENTTRACKERWindow.connect("delete_event", self.QuitButtonCallback)
 
@@ -97,9 +101,10 @@ class TrackEventsGUI:
         self.ECbuttonLTCTICAP.set_active(False)
         self.BuildEVENTTRACKERWindowBox.pack_start(self.ECbuttonLTCTICAP, False, False, 0)
 
-        # Other CAP
+        # Other CAP - de-sensitized for now.
         self.ECbuttonOTHERCAP = gtk.RadioButton(self.ECbuttonLTCTICAP, "Other Cap (Future enhancement)")
         self.ECbuttonOTHERCAP.set_active(False)
+        self.ECbuttonOTHERCAP.set_sensitive(False)
         self.BuildEVENTTRACKERWindowBox.pack_start(self.ECbuttonOTHERCAP, False, False, 0)
 
         # Pitch Maneuver
@@ -107,10 +112,10 @@ class TrackEventsGUI:
         self.ECbuttonPITCHMAN.set_active(False)
         self.BuildEVENTTRACKERWindowBox.pack_start(self.ECbuttonPITCHMAN, False, False, 0)
 
-        # Anomalous Event
-        self.ECbuttonANOMALOUSEVENT = gtk.RadioButton(self.ECbuttonPITCHMAN, "Anomalous Event (Future enhancement)")
-        self.ECbuttonANOMALOUSEVENT.set_active(False)
-        self.BuildEVENTTRACKERWindowBox.pack_start(self.ECbuttonANOMALOUSEVENT, False, False, 0)
+        # FEP_ON_FEP_OFF Event
+        self.ECbuttonFEP_ON_FEP_OFF_EVENT = gtk.RadioButton(self.ECbuttonPITCHMAN, "Power Commands")
+        self.ECbuttonFEP_ON_FEP_OFF_EVENT.set_active(False)
+        self.BuildEVENTTRACKERWindowBox.pack_start(self.ECbuttonFEP_ON_FEP_OFF_EVENT, False, False, 0)
          
         # 5555 - TABLE for Text Entries 
         self.TextEntry_Table = gtk.Table(10,3, True)
@@ -166,10 +171,10 @@ if __name__ == "__main__":
     # Instance of the Long Term CTI Handler class
     LTCTI = LTCTI_Window.LTCTI()
 
-    # Instance of the "Other" CLD Handler class
-#    OTHERCLD = OTHERCLD_Window.OTHERCLD()
-
     # Instance of the Manueuver Handler class
     PITCHMAN = PITCHMAN_Window.PITCHMAN()
+
+    # Instance of the FEPS ON OFF Handler class
+    FEPS_ON_OFF = FEPs_On_Off_Window.FEPs_On_Off_Window_class()
 
     main()
